@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -81,6 +81,37 @@ button {
   font-size: 18px;
   cursor: pointer;
 }
+
+/* ORDER POPUP */
+.popup {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  background: #1c1c1c;
+  padding: 20px;
+  border-radius: 20px 20px 0 0;
+  transition: 0.3s;
+}
+
+.popup.active {
+  bottom: 0;
+}
+
+.popup input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+}
+
+.popup button {
+  background: orange;
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+}
 </style>
 </head>
 
@@ -89,34 +120,43 @@ button {
 <div class="header">
   <h1>🌯 Shaurma</h1>
   <p>📍 Den Haag</p>
-  <a class="map-btn" href="https://maps.google.com" target="_blank">Открыть карту</a>
+  <a class="map-btn" href="https://maps.google.com" target="_blank">Open map</a>
 </div>
 
-<div class="section">🥙 Меню</div>
+<div class="section">🥙 Menu</div>
 <div class="grid" id="menu"></div>
 
-<div class="section">🥤 Напитки</div>
+<div class="section">🥤 Drinks</div>
 <div class="grid" id="drinks"></div>
 
-<div class="footer" onclick="order()">Заказать</div>
+<div class="footer" onclick="openPopup()">Order</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <h3>Your order</h3>
+  <input type="text" id="name" placeholder="Your name">
+  <input type="time" id="time">
+  <button onclick="sendOrder()">Send to WhatsApp</button>
+</div>
 
 <script>
 let menu = [
-  {name: "Standart", price: 14.5, img: "https://cdn-icons-png.flaticon.com/512/5787/5787016.png", count: 0},
-  {name: "Hawaii", price: 16, img: "https://cdn-icons-png.flaticon.com/512/3075/3075977.png", count: 0},
-  {name: "Mini", price: 13, img: "https://cdn-icons-png.flaticon.com/512/5787/5787016.png", count: 0},
-  {name: "Asorti", price: 16, img: "https://cdn-icons-png.flaticon.com/512/3075/3075977.png", count: 0},
-  {name: "Greek", price: 16, img: "https://cdn-icons-png.flaticon.com/512/5787/5787016.png", count: 0},
-  {name: "Arabic", price: 15, img: "https://cdn-icons-png.flaticon.com/512/3075/3075977.png", count: 0},
-  {name: "Suluguni with meat", price: 16, img: "https://cdn-icons-png.flaticon.com/512/5787/5787016.png", count: 0}
+  {name: "Shaurma XL", price: 18, img: "images/xl.png", count: 0},
+  {name: "Standart", price: 14.5, img: "images/стандарт.png", count: 0},
+  {name: "Hawaii", price: 16, img: "images/Гаваи.png", count: 0},
+  {name: "Mini", price: 13, img: "images/Мини.png", count: 0},
+  {name: "Asorti", price: 16, img: "images/ассорти.png", count: 0},
+  {name: "Greek", price: 16, img: "images/грецкая.png", count: 0},
+  {name: "Arabic", price: 15, img: "images/арабская.png", count: 0},
+  {name: "Suluguni with meat", price: 16, img: "images/сулугуни.png", count: 0}
 ];
 
 let drinks = [
-  {name: "Pepsi", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1046/1046784.png", count: 0},
-  {name: "Cola", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1046/1046784.png", count: 0},
-  {name: "Red Bull", price: 3, img: "https://cdn-icons-png.flaticon.com/512/2935/2935307.png", count: 0},
-  {name: "Ayran", price: 3, img: "https://cdn-icons-png.flaticon.com/512/3050/3050155.png", count: 0},
-  {name: "Water", price: 3, img: "https://cdn-icons-png.flaticon.com/512/728/728093.png", count: 0}
+  {name: "Pepsi", price: 3, img: "images/пепси.png", count: 0},
+  {name: "Cola", price: 3, img: "images/кола.png", count: 0},
+  {name: "Red Bull", price: 3, img: "images/редбул.png", count: 0},
+  {name: "Ayran", price: 3, img: "images/айран.png", count: 0},
+  {name: "Water", price: 3, img: "images/вода.png", count: 0}
 ];
 
 function render() {
@@ -151,15 +191,22 @@ function change(type, i, val) {
   render();
 }
 
-function order() {
-  let name = prompt("Введите имя:");
-  let time = prompt("Во сколько заберёте?");
+function openPopup() {
+  document.getElementById("popup").classList.add("active");
+}
 
-  if (!name || !time) return;
+function sendOrder() {
+  let name = document.getElementById("name").value;
+  let time = document.getElementById("time").value;
 
-  let text = "Привет! Заказ:%0A%0A";
-  text += "Имя: " + name + "%0A";
-  text += "Время: " + time + "%0A%0A";
+  if (!name || !time) {
+    alert("Enter name and time");
+    return;
+  }
+
+  let text = "Hello! Order:%0A%0A";
+  text += "Name: " + name + "%0A";
+  text += "Pickup time: " + time + "%0A%0A";
 
   [...menu, ...drinks].forEach(item => {
     if (item.count > 0) {
@@ -167,7 +214,7 @@ function order() {
     }
   });
 
-  let phone = "316XXXXXXXX";
+  let phone = "316XXXXXXXX"; // ВСТАВЬ НОМЕР
   window.open("https://wa.me/" + phone + "?text=" + text);
 }
 
