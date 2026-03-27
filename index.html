@@ -1,138 +1,157 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Shaurma Menu</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #111;
-      color: white;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shaurma</title>
 
-    h1 {
-      padding: 20px;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f0f0f;
+  color: white;
+}
 
-    .container {
-      padding: 15px;
-    }
+.header {
+  padding: 20px;
+  text-align: center;
+}
 
-    .item {
-      background: #222;
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 10px;
-    }
+.map-btn {
+  background: #333;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-top: 10px;
+  color: white;
+  text-decoration: none;
+}
 
-    input, select {
-      width: 90%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: none;
-    }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  padding: 15px;
+}
 
-    button {
-      background: #ff7a00;
-      color: white;
-      border: none;
-      padding: 15px;
-      width: 90%;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+.card {
+  background: #1c1c1c;
+  padding: 15px;
+  border-radius: 15px;
+  text-align: center;
+}
 
-    button:hover {
-      background: #ff9500;
-    }
+.card h3 {
+  margin: 10px 0;
+}
 
-    .map {
-      margin-top: 20px;
-    }
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
 
-    a.map-btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 10px 20px;
-      background: #333;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-    }
+button {
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
-  </style>
+.add {
+  background: orange;
+  color: white;
+}
+
+.minus {
+  background: red;
+  color: white;
+}
+
+.plus {
+  background: orange;
+  color: white;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: green;
+  text-align: center;
+  padding: 15px;
+  font-size: 18px;
+  cursor: pointer;
+}
+</style>
 </head>
 
 <body>
 
-<h1>🌯 Shaurma</h1>
-
-<div class="container">
-
-  <!-- МЕНЮ -->
-  <div class="item">
-    <h3>Шаурма обычная - €6</h3>
-    <input type="number" id="small" placeholder="Количество" min="0">
-  </div>
-
-  <div class="item">
-    <h3>Шаурма большая - €8</h3>
-    <input type="number" id="big" placeholder="Количество" min="0">
-  </div>
-
-  <div class="item">
-    <h3>Кола - €2</h3>
-    <input type="number" id="cola" placeholder="Количество" min="0">
-  </div>
-
-  <!-- ДАННЫЕ -->
-  <input type="text" id="name" placeholder="Ваше имя">
-  <input type="time" id="time">
-
-  <!-- КНОПКА -->
-  <button onclick="order()">Заказать</button>
-
-  <!-- КАРТА -->
-  <div class="map">
-    <h3>📍 Наш адрес</h3>
-    <a class="map-btn" href="https://maps.google.com" target="_blank">Открыть карту</a>
-  </div>
-
+<div class="header">
+  <h1>🌯 Shaurma</h1>
+  <p>📍 Den Haag</p>
+  <a class="map-btn" href="https://maps.google.com" target="_blank">Открыть карту</a>
 </div>
 
-<script>
-function order() {
-  let small = document.getElementById("small").value;
-  let big = document.getElementById("big").value;
-  let cola = document.getElementById("cola").value;
-  let name = document.getElementById("name").value;
-  let time = document.getElementById("time").value;
+<div class="grid" id="menu"></div>
 
-  if (!name || !time) {
-    alert("Введите имя и время!");
-    return;
-  }
+<div class="footer" onclick="order()">Заказать</div>
+
+<script>
+let items = [
+  {name: "Шаурма обычная", price: 6, count: 0},
+  {name: "Шаурма большая", price: 8, count: 0},
+  {name: "Кола", price: 2, count: 0}
+];
+
+function render() {
+  let menu = document.getElementById("menu");
+  menu.innerHTML = "";
+
+  items.forEach((item, i) => {
+    menu.innerHTML += `
+      <div class="card">
+        <h3>${item.name}</h3>
+        <p>€${item.price}</p>
+        <div class="controls">
+          <button class="minus" onclick="change(${i}, -1)">-</button>
+          <span>${item.count}</span>
+          <button class="plus" onclick="change(${i}, 1)">+</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function change(i, val) {
+  items[i].count += val;
+  if (items[i].count < 0) items[i].count = 0;
+  render();
+}
+
+function order() {
+  let name = prompt("Введите имя:");
+  let time = prompt("Во сколько заберёте?");
+
+  if (!name || !time) return;
 
   let text = "Привет! Заказ на самовывоз:%0A%0A";
   text += "Имя: " + name + "%0A";
   text += "Время: " + time + "%0A%0A";
-  text += "Заказ:%0A";
 
-  if (small > 0) text += "- Шаурма обычная x" + small + "%0A";
-  if (big > 0) text += "- Шаурма большая x" + big + "%0A";
-  if (cola > 0) text += "- Кола x" + cola + "%0A";
+  items.forEach(item => {
+    if (item.count > 0) {
+      text += "- " + item.name + " x" + item.count + "%0A";
+    }
+  });
 
-  let phone = "31612345678"; // ВСТАВЬ ЕГО НОМЕР БЕЗ +
-  let url = "https://wa.me/" + phone + "?text=" + text;
-
-  window.open(url, "_blank");
+  let phone = "316XXXXXXXX"; // ВСТАВЬ НОМЕР
+  window.open("https://wa.me/" + phone + "?text=" + text);
 }
+
+render();
 </script>
 
 </body>
