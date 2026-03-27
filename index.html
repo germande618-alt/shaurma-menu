@@ -212,6 +212,13 @@ function openPopup() {
 }
 
 function sendOrder() {
+  
+let hasItems = [...menu, ...drinks].some(item => item.count > 0);
+
+if (!hasItems) {
+  alert("Add something to order!");
+  return;
+}
   let name = document.getElementById("name").value;
   let time = document.getElementById("time").value;
 
