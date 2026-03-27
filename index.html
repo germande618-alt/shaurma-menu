@@ -1,1 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Shaurma Menu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #111;
+      color: white;
+      text-align: center;
+    }
 
+    h1 {
+      padding: 20px;
+    }
+
+    .container {
+      padding: 15px;
+    }
+
+    .item {
+      background: #222;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    input, select {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+    }
+
+    button {
+      background: #ff7a00;
+      color: white;
+      border: none;
+      padding: 15px;
+      width: 90%;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ff9500;
+    }
+
+    .map {
+      margin-top: 20px;
+    }
+
+    a.map-btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #333;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<h1>🌯 Shaurma</h1>
+
+<div class="container">
+
+  <!-- МЕНЮ -->
+  <div class="item">
+    <h3>Шаурма обычная - €6</h3>
+    <input type="number" id="small" placeholder="Количество" min="0">
+  </div>
+
+  <div class="item">
+    <h3>Шаурма большая - €8</h3>
+    <input type="number" id="big" placeholder="Количество" min="0">
+  </div>
+
+  <div class="item">
+    <h3>Кола - €2</h3>
+    <input type="number" id="cola" placeholder="Количество" min="0">
+  </div>
+
+  <!-- ДАННЫЕ -->
+  <input type="text" id="name" placeholder="Ваше имя">
+  <input type="time" id="time">
+
+  <!-- КНОПКА -->
+  <button onclick="order()">Заказать</button>
+
+  <!-- КАРТА -->
+  <div class="map">
+    <h3>📍 Наш адрес</h3>
+    <a class="map-btn" href="https://maps.google.com" target="_blank">Открыть карту</a>
+  </div>
+
+</div>
+
+<script>
+function order() {
+  let small = document.getElementById("small").value;
+  let big = document.getElementById("big").value;
+  let cola = document.getElementById("cola").value;
+  let name = document.getElementById("name").value;
+  let time = document.getElementById("time").value;
+
+  if (!name || !time) {
+    alert("Введите имя и время!");
+    return;
+  }
+
+  let text = "Привет! Заказ на самовывоз:%0A%0A";
+  text += "Имя: " + name + "%0A";
+  text += "Время: " + time + "%0A%0A";
+  text += "Заказ:%0A";
+
+  if (small > 0) text += "- Шаурма обычная x" + small + "%0A";
+  if (big > 0) text += "- Шаурма большая x" + big + "%0A";
+  if (cola > 0) text += "- Кола x" + cola + "%0A";
+
+  let phone = "31612345678"; // ВСТАВЬ ЕГО НОМЕР БЕЗ +
+  let url = "https://wa.me/" + phone + "?text=" + text;
+
+  window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
