@@ -19,13 +19,14 @@ body {
 }
 
 .map-btn {
-  background: #333;
-  padding: 10px;
-  border-radius: 8px;
-  display: inline-block;
-  margin-top: 10px;
+  background: #222;
+  padding: 12px;
+  border-radius: 10px;
+  display: block;
+  margin: 8px auto;
   color: white;
   text-decoration: none;
+  width: 80%;
 }
 
 .section {
@@ -116,26 +117,40 @@ button {
 
 <body>
 
+<!-- HEADER -->
 <div class="header">
   <h1>🌯 Shaurma</h1>
 
-  <div style="margin-top:10px;">
-    <a href="https://maps.app.goo.gl/U9jSwZBhYhGr8AGNA?g_st=it" target="_blank" class="map-btn">
-      📍 Open location
-    </a>
-  </div>
+  <a href="https://maps.app.goo.gl/U9jSwZBhYhGr8AGNA?g_st=it" target="_blank" class="map-btn">
+    📍 Open location
+  </a>
 
-  <div style="margin-top:10px;">
-    <a href="tel:+31682852044" class="map-btn">
-      📞 Call: +31 6 82852044
-    </a>
-  </div>
+  <a href="tel:+31682852044" class="map-btn">
+    📞 Call: +31 6 82852044
+  </a>
 
-  <div style="margin-top:10px;">
-    <a href="https://wa.me/31682852044" target="_blank" class="map-btn">
-      💬 WhatsApp
-    </a>
-  </div>
+  <a href="https://wa.me/31682852044" target="_blank" class="map-btn">
+    💬 WhatsApp
+  </a>
+</div>
+
+<!-- MENU -->
+<div class="section">🥙 Menu</div>
+<div class="grid" id="menu"></div>
+
+<!-- DRINKS -->
+<div class="section">🥤 Drinks</div>
+<div class="grid" id="drinks"></div>
+
+<!-- ORDER BUTTON -->
+<div class="footer" onclick="openPopup()">Order</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <h3>Your order</h3>
+  <input type="text" id="name" placeholder="Your name">
+  <input type="time" id="time">
+  <button onclick="sendOrder()">Send to WhatsApp</button>
 </div>
 
 <script>
@@ -165,6 +180,8 @@ function render() {
 
 function renderSection(list, id) {
   let container = document.getElementById(id);
+  if (!container) return;
+
   container.innerHTML = "";
 
   list.forEach((item, i) => {
@@ -213,7 +230,7 @@ function sendOrder() {
     }
   });
 
-  let phone = "316XXXXXXXX"; // ВСТАВЬ НОМЕР
+  let phone = "31682852044";
   window.open("https://wa.me/" + phone + "?text=" + text);
 }
 
