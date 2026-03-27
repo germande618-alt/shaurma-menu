@@ -28,6 +28,12 @@ body {
   text-decoration: none;
 }
 
+.section {
+  padding: 10px 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -37,42 +43,33 @@ body {
 
 .card {
   background: #1c1c1c;
-  padding: 15px;
+  padding: 10px;
   border-radius: 15px;
   text-align: center;
 }
 
-.card h3 {
-  margin: 10px 0;
+.card img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
 }
 
 .controls {
   display: flex;
   justify-content: center;
   gap: 10px;
+  margin-top: 5px;
 }
 
 button {
   border: none;
-  padding: 10px;
+  padding: 8px;
   border-radius: 8px;
   cursor: pointer;
 }
 
-.add {
-  background: orange;
-  color: white;
-}
-
-.minus {
-  background: red;
-  color: white;
-}
-
-.plus {
-  background: orange;
-  color: white;
-}
+.minus { background: red; color: white; }
+.plus { background: orange; color: white; }
 
 .footer {
   position: fixed;
@@ -95,39 +92,62 @@ button {
   <a class="map-btn" href="https://maps.google.com" target="_blank">Открыть карту</a>
 </div>
 
+<div class="section">🥙 Меню</div>
 <div class="grid" id="menu"></div>
+
+<div class="section">🥤 Напитки</div>
+<div class="grid" id="drinks"></div>
 
 <div class="footer" onclick="order()">Заказать</div>
 
 <script>
-let items = [
-  {name: "Шаурма обычная", price: 6, count: 0},
-  {name: "Шаурма большая", price: 8, count: 0},
-  {name: "Кола", price: 2, count: 0}
+let menu = [
+  {name: "Standart", price: 14.5, img: "https://cdn-icons-png.flaticon.com/512/5787/5787016.png", count: 0},
+  {name: "Hawaii", price: 16, img: "https://cdn-icons-png.flaticon.com/512/3075/3075977.png", count: 0},
+  {name: "Mini", price: 13, img: "https://cdn-icons-png.flaticon.com/512/5787/5787016.png", count: 0},
+  {name: "Asorti", price: 16, img: "https://cdn-icons-png.flaticon.com/512/3075/3075977.png", count: 0},
+  {name: "Greek", price: 16, img: "https://cdn-icons-png.flaticon.com/512/5787/5787016.png", count: 0},
+  {name: "Arabic", price: 15, img: "https://cdn-icons-png.flaticon.com/512/3075/3075977.png", count: 0},
+  {name: "Suluguni with meat", price: 16, img: "https://cdn-icons-png.flaticon.com/512/5787/5787016.png", count: 0}
+];
+
+let drinks = [
+  {name: "Pepsi", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1046/1046784.png", count: 0},
+  {name: "Cola", price: 3, img: "https://cdn-icons-png.flaticon.com/512/1046/1046784.png", count: 0},
+  {name: "Red Bull", price: 3, img: "https://cdn-icons-png.flaticon.com/512/2935/2935307.png", count: 0},
+  {name: "Ayran", price: 3, img: "https://cdn-icons-png.flaticon.com/512/3050/3050155.png", count: 0},
+  {name: "Water", price: 3, img: "https://cdn-icons-png.flaticon.com/512/728/728093.png", count: 0}
 ];
 
 function render() {
-  let menu = document.getElementById("menu");
-  menu.innerHTML = "";
+  renderSection(menu, "menu");
+  renderSection(drinks, "drinks");
+}
 
-  items.forEach((item, i) => {
-    menu.innerHTML += `
+function renderSection(list, id) {
+  let container = document.getElementById(id);
+  container.innerHTML = "";
+
+  list.forEach((item, i) => {
+    container.innerHTML += `
       <div class="card">
+        <img src="${item.img}">
         <h3>${item.name}</h3>
         <p>€${item.price}</p>
         <div class="controls">
-          <button class="minus" onclick="change(${i}, -1)">-</button>
+          <button class="minus" onclick="change('${id}', ${i}, -1)">-</button>
           <span>${item.count}</span>
-          <button class="plus" onclick="change(${i}, 1)">+</button>
+          <button class="plus" onclick="change('${id}', ${i}, 1)">+</button>
         </div>
       </div>
     `;
   });
 }
 
-function change(i, val) {
-  items[i].count += val;
-  if (items[i].count < 0) items[i].count = 0;
+function change(type, i, val) {
+  let list = type === "menu" ? menu : drinks;
+  list[i].count += val;
+  if (list[i].count < 0) list[i].count = 0;
   render();
 }
 
@@ -137,17 +157,17 @@ function order() {
 
   if (!name || !time) return;
 
-  let text = "Привет! Заказ на самовывоз:%0A%0A";
+  let text = "Привет! Заказ:%0A%0A";
   text += "Имя: " + name + "%0A";
   text += "Время: " + time + "%0A%0A";
 
-  items.forEach(item => {
+  [...menu, ...drinks].forEach(item => {
     if (item.count > 0) {
       text += "- " + item.name + " x" + item.count + "%0A";
     }
   });
 
-  let phone = "316XXXXXXXX"; // ВСТАВЬ НОМЕР
+  let phone = "316XXXXXXXX";
   window.open("https://wa.me/" + phone + "?text=" + text);
 }
 
