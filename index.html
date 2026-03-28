@@ -15,7 +15,7 @@ body {
 
 /* HERO */
 .hero {
-  height: 480px;
+  height: 100vh;
   background: url("images/hero.jpg") center/cover no-repeat;
   position: relative;
 }
@@ -24,24 +24,19 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.3),
-    rgba(0,0,0,0.8),
-    #000
-  );
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3), #000);
 }
 
 /* LOGO */
 .logo {
   position: absolute;
-  top: 25px;
-  left: 20px;
+  top: 30px;
+  left: 30px;
   z-index: 2;
 }
 
 .logo-main {
-  font-size: 34px;
+  font-size: 40px;
   font-weight: 700;
 }
 
@@ -52,117 +47,128 @@ body {
 /* CONTACTS */
 .contacts {
   position: absolute;
-  top: 140px;
-  left: 20px;
-  right: 20px;
+  top: 150px;
+  left: 30px;
+  width: 320px;
   z-index: 2;
 }
 
-/* GLASS BUTTON */
 .btn {
   display: block;
-  margin: 12px 0;
-  padding: 16px;
-  border-radius: 18px;
+  margin-bottom: 15px;
+  padding: 18px;
+  border-radius: 20px;
 
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(20px);
 
   border: 1px solid rgba(255,255,255,0.1);
-
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-
-  color: white;
-  text-decoration: none;
 }
 
-/* CONTENT */
-.content {
+/* MAIN LAYOUT */
+.main {
+  display: flex;
+  gap: 20px;
+  padding: 40px;
+  margin-top: -200px;
+  position: relative;
+  z-index: 2;
+}
+
+/* LEFT SIDE */
+.left {
+  flex: 2;
+}
+
+/* RIGHT SIDE */
+.right {
+  width: 260px;
+}
+
+/* CARD BIG */
+.big-card {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
   padding: 20px;
+  margin-bottom: 20px;
+}
+
+.big-card img {
+  width: 100%;
+  border-radius: 20px;
 }
 
 /* GRID */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 15px;
 }
 
-/* CARD */
+/* SMALL CARD */
 .card {
   background: rgba(255,255,255,0.05);
   backdrop-filter: blur(20px);
-
-  border-radius: 22px;
-  padding: 14px;
-
-  border: 1px solid rgba(255,255,255,0.08);
-
-  box-shadow: 0 10px 40px rgba(0,0,0,0.7);
-
-  transition: 0.2s;
-}
-
-.card:hover {
-  transform: scale(1.03);
+  border-radius: 20px;
+  padding: 15px;
 }
 
 .card img {
   width: 100%;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 16px;
+  border-radius: 15px;
 }
 
+/* PRICE */
 .price {
-  margin: 6px 0;
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
 /* CONTROLS */
 .controls {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
 }
 
 .controls button {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
+  width: 32px;
+  height: 32px;
   border: none;
-  font-size: 18px;
+  border-radius: 10px;
   color: white;
 }
 
-.minus {
-  background: linear-gradient(45deg, #ff3b3b, #a30000);
+.minus { background: red; }
+.plus { background: orange; }
+
+/* RIGHT PROFILE */
+.profile {
+  text-align: center;
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 25px;
 }
 
-.plus {
-  background: linear-gradient(45deg, #ffb300, #ff6f00);
+.profile img {
+  width: 120px;
+  border-radius: 50%;
 }
 
 /* ORDER */
-.order-btn {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  padding: 18px;
-
+.order {
+  margin-top: 20px;
+  padding: 15px;
   background: linear-gradient(90deg, #00c400, #00ff66);
-
-  border: none;
-  font-size: 18px;
-  color: white;
+  border-radius: 15px;
+  text-align: center;
 }
 </style>
 </head>
 
 <body>
 
-<!-- HERO -->
 <div class="hero">
 
   <div class="logo">
@@ -171,59 +177,75 @@ body {
   </div>
 
   <div class="contacts">
-    <a class="btn" href="#">📍 Open location</a>
-    <a class="btn" href="tel:+31682852044">📞 +31 6 82852044</a>
-    <a class="btn" href="#">💬 WhatsApp</a>
+    <div class="btn">📍 Open location</div>
+    <div class="btn">📞 +31 6 82852044</div>
+    <div class="btn">💬 WhatsApp</div>
   </div>
 
 </div>
 
-<!-- MENU -->
-<div class="content">
+<div class="main">
 
-  <h2>Menu</h2>
+  <div class="left">
 
-  <div class="grid" id="menu"></div>
+    <!-- BIG CARD -->
+    <div class="big-card">
+      <img src="images/person.jpg">
+      <h2>Shawarma XL</h2>
+      <div class="price">€18</div>
+
+      <div class="controls">
+        <button class="minus">-</button>
+        <span>0</span>
+        <button class="plus">+</button>
+      </div>
+    </div>
+
+    <!-- GRID -->
+    <div class="grid">
+      <div class="card">
+        <img src="images/person.jpg">
+        <h3>Pepsi</h3>
+        <div class="price">€3</div>
+      </div>
+
+      <div class="card">
+        <img src="images/person.jpg">
+        <h3>Cola</h3>
+        <div class="price">€14.5</div>
+      </div>
+
+      <div class="card">
+        <img src="images/person.jpg">
+        <h3>Red Bull</h3>
+        <div class="price">€3</div>
+      </div>
+
+      <div class="card">
+        <img src="images/person.jpg">
+        <h3>Ayran</h3>
+        <div class="price">€3</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="right">
+
+    <div class="profile">
+      <img src="images/avatar.png">
+      <h3>Ruslan</h3>
+      <div>MOTIVATOR</div>
+    </div>
+
+    <div class="order">
+      Order
+    </div>
+
+  </div>
 
 </div>
-
-<button class="order-btn">Order</button>
-
-<script>
-const items = [
-  {name:"Shawarma XL", price:18},
-  {name:"Standart", price:14.5},
-  {name:"Mini", price:12},
-  {name:"Hawaii", price:16}
-];
-
-const menu = document.getElementById("menu");
-
-items.forEach((item, i) => {
-  const card = document.createElement("div");
-
-  // первая карточка большая
-  if(i === 0){
-    card.style.gridColumn = "span 2";
-  }
-
-  card.className = "card";
-
-  card.innerHTML = `
-    <img src="images/person.jpg">
-    <h3>${item.name}</h3>
-    <div class="price">€${item.price}</div>
-
-    <div class="controls">
-      <button class="minus">-</button>
-      <span>0</span>
-      <button class="plus">+</button>
-    </div>
-  `;
-
-  menu.appendChild(card);
-});
-</script>
 
 </body>
 </html>
