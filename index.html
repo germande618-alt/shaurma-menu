@@ -1,75 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Black Roll Odessa</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shaurma</title>
 
 <style>
 body {
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: Arial, sans-serif;
   background: #000;
   color: white;
 }
 
-/* ===== LOGO ===== */
+/* ===== HERO ===== */
+.hero {
+  height: 320px;
+  background: url("images/hero.jpg") center/cover no-repeat;
+  position: relative;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.3),
+    rgba(0,0,0,0.8),
+    #000
+  );
+}
+
 .logo {
-  text-align: center;
-  padding: 20px 0;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 2;
 }
 
 .logo-main {
   font-size: 32px;
-  font-weight: 600;
+  font-weight: bold;
 }
 
 .logo-sub {
-  font-size: 16px;
-  color: #d4a017;
-  margin-top: -5px;
+  color: gold;
+  font-size: 14px;
 }
 
-/* ===== HERO ===== */
-.hero {
-  width: 100%;
-  height: 260px;
-  background: url("images/hero.jpg") center/cover no-repeat;
-  border-radius: 0 0 20px 20px;
-}
-
-/* ===== CONTACTS ===== */
-.contacts {
+/* ===== КОНТЕНТ ===== */
+.content {
   padding: 15px;
 }
 
+/* ===== КНОПКИ ===== */
 .btn {
-  background: #111;
-  padding: 14px;
-  margin-bottom: 10px;
-  border-radius: 12px;
-  text-align: center;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.btn:hover {
-  background: #1a1a1a;
-}
-
-/* ===== MENU ===== */
-.menu {
+  display: block;
+  margin: 10px 0;
   padding: 15px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  text-decoration: none;
+  color: white;
 }
 
-.menu-title {
-  font-size: 20px;
-  margin-bottom: 15px;
-}
-
+/* ===== МЕНЮ ===== */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -77,26 +74,29 @@ body {
 }
 
 .card {
-  background: #111;
-  padding: 15px;
-  border-radius: 15px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 12px;
   text-align: center;
 }
 
-.card h3 {
-  margin: 10px 0 5px;
-  font-size: 16px;
+.card img {
+  width: 100%;
+  height: 120px;
+  object-fit: contain;
 }
 
-.card p {
-  color: #d4a017;
+.price {
+  margin: 5px 0;
 }
 
+/* ===== КНОПКИ +/- ===== */
 .controls {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  gap: 10px;
 }
 
 .controls button {
@@ -104,132 +104,120 @@ body {
   height: 30px;
   border: none;
   border-radius: 8px;
-  margin: 0 5px;
+  color: white;
   font-size: 18px;
-  cursor: pointer;
 }
 
-.minus { background: red; color: white; }
-.plus { background: orange; color: black; }
+.minus { background: red; }
+.plus { background: orange; }
 
-/* ===== ORDER BUTTON ===== */
-.order {
+/* ===== ORDER ===== */
+.order-btn {
   position: fixed;
   bottom: 0;
+  left: 0;
   width: 100%;
+  padding: 15px;
   background: green;
-  padding: 18px;
+  color: white;
   text-align: center;
   font-size: 18px;
-  cursor: pointer;
+  border: none;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGO -->
-<div class="logo">
-  <div class="logo-main">Black Roll®</div>
-  <div class="logo-sub">odessa</div>
+<!-- HERO -->
+<div class="hero">
+  <div class="logo">
+    <div class="logo-main">Black Roll®</div>
+    <div class="logo-sub">odessa</div>
+  </div>
 </div>
 
-<!-- HERO IMAGE -->
-<div class="hero"></div>
+<!-- CONTENT -->
+<div class="content">
 
-<!-- CONTACTS -->
-<div class="contacts">
-  <div class="btn" onclick="openMap()">📍 Open location</div>
-  <div class="btn" onclick="call()">📞 Call: +31 6 82852044</div>
-  <div class="btn" onclick="whatsapp()">💬 WhatsApp</div>
+<a class="btn" href="https://maps.app.goo.gl/U9jSwZBhYhGr8AGNA" target="_blank">
+📍 Open location
+</a>
+
+<a class="btn" href="tel:+31682852044">
+📞 +31 6 82852044
+</a>
+
+<a class="btn" href="https://wa.me/31682852044" target="_blank">
+💬 WhatsApp
+</a>
+
+<h2>Menu</h2>
+
+<div class="grid" id="menu"></div>
+
 </div>
 
-<!-- MENU -->
-<div class="menu">
-  <div class="menu-title">🌯 Menu</div>
-
-  <div class="grid" id="menu"></div>
-</div>
-
-<!-- ORDER -->
-<div class="order" onclick="order()">Order</div>
+<button class="order-btn" onclick="order()">Order</button>
 
 <script>
-let items = [
-  {name:"Standart", price:14.5, count:0},
-  {name:"Hawaii", price:16, count:0},
-  {name:"Mini", price:13, count:0},
-  {name:"Asorti", price:16, count:0},
-  {name:"Greek", price:16, count:0},
-  {name:"Arabic", price:15, count:0},
-  {name:"Suluguni", price:16, count:0},
-  {name:"XL", price:18, count:0},
-  {name:"Pepsi", price:3, count:0},
-  {name:"Cola", price:3, count:0},
-  {name:"Red Bull", price:3, count:0},
-  {name:"Ayran", price:3, count:0},
-  {name:"Water", price:3, count:0}
+const items = [
+  {name:"Shawarma XL", price:18, img:"images/xl.png"},
+  {name:"Standart", price:14.5, img:"images/standart.png"},
+  {name:"Mini", price:12, img:"images/mini.png"},
+  {name:"Hawaii", price:16, img:"images/hawaii.png"},
+  {name:"Greek", price:16, img:"images/greek.png"},
+  {name:"Arabic", price:16, img:"images/arabic.png"},
+  {name:"Suluguni", price:16, img:"images/suluguni.png"},
+
+  {name:"Pepsi", price:3, img:"images/pepsi.png"},
+  {name:"Cola", price:3, img:"images/cola.png"},
+  {name:"Red Bull", price:3, img:"images/redbull.png"},
+  {name:"Ayran", price:3, img:"images/ayran.png"},
+  {name:"Water", price:3, img:"images/water.png"}
 ];
 
-function render(){
-  let html = "";
-  items.forEach((item,i)=>{
-    html += `
-      <div class="card">
-        <h3>${item.name}</h3>
-        <p>€${item.price}</p>
+const menu = document.getElementById("menu");
 
-        <div class="controls">
-          <button class="minus" onclick="change(${i},-1)">-</button>
-          <span>${item.count}</span>
-          <button class="plus" onclick="change(${i},1)">+</button>
-        </div>
-      </div>
-    `;
-  });
+items.forEach((item, i) => {
+  item.count = 0;
 
-  document.getElementById("menu").innerHTML = html;
-}
+  menu.innerHTML += `
+  <div class="card">
+    <img src="${item.img}">
+    <div>${item.name}</div>
+    <div class="price">€${item.price}</div>
 
-function change(i,val){
+    <div class="controls">
+      <button class="minus" onclick="change(${i}, -1)">-</button>
+      <span id="count${i}">0</span>
+      <button class="plus" onclick="change(${i}, 1)">+</button>
+    </div>
+  </div>`;
+});
+
+function change(i, val){
   items[i].count += val;
   if(items[i].count < 0) items[i].count = 0;
-  render();
+  document.getElementById("count"+i).innerText = items[i].count;
 }
 
 function order(){
-  let text = "Hello, I want to order:%0A";
+  let selected = items.filter(i => i.count > 0);
 
-  let hasItems = items.some(i => i.count > 0);
-  if(!hasItems){
-    alert("Add something!");
+  if(selected.length === 0){
+    alert("Add something to order!");
     return;
   }
 
-  items.forEach(i=>{
-    if(i.count > 0){
-      text += `${i.name} x${i.count}%0A`;
-    }
-  });
+  let text = "Order:%0A";
 
-  text += "%0ATime: ";
+  selected.forEach(i=>{
+    text += `${i.name} x${i.count}%0A`;
+  });
 
   window.open(`https://wa.me/31682852044?text=${text}`);
 }
-
-function openMap(){
-  window.open("https://maps.app.goo.gl/U9jSwZBhYhGr8AGNA");
-}
-
-function call(){
-  window.location.href = "tel:+31682852044";
-}
-
-function whatsapp(){
-  window.open("https://wa.me/31682852044");
-}
-
-render();
 </script>
 
 </body>
